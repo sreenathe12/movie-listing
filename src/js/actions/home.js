@@ -7,7 +7,6 @@ class HomeActions {
             'loadMovies',
             'setLoadingState',
             'setMovie',
-            'toggleFilterState',
             'selectFilter'
         );
     }

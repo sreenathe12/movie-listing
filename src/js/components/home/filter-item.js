@@ -3,22 +3,12 @@ import HomeActions from '../../actions/home';
 
 class FilterItem extends React.Component {
 
-    handleClick(evt) {
-        evt.preventDefault();
-        
-        HomeActions.selectFilter({
-            filterType: this.props.filterType,
-            selected: this.props.id
-        });
-    }
-
     render() {
+        let selected = this.props.currentFilter == this.props.id ? true : false;
         return(
-            <li className={this.props.css}>
-                <a href="#" onClick={this.handleClick.bind(this)}>
-                    {this.props.title}
-                </a>
-            </li>
+            <option value={this.props.id} selected={selected}>
+                {this.props.title}
+            </option>
         );
     }
 

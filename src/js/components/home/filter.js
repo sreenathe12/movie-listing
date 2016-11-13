@@ -1,39 +1,29 @@
 import React from 'react';
 import HomeActions from '../../actions/home';
 import FilterItem from './filter-item';
+import { kebabCase } from 'lodash';
 
 class Filter extends React.Component {
 
-    handleClick(evt) {
-        evt.preventDefault();
-        HomeActions.toggleFilterState(this.props.filterType);
+    handleChange(evt) {
+        HomeActions.selectFilter({
+            filterType: this.props.filterType,
+            selected: evt.currentTarget.value
+        });
     }
 
     render() {
-        let { filter } = this.props;
-        let filterOpen = filter.open ? 'open' : 'closed';
-        let current;
-
-        let filterOptions = this.props.options.map((option) => {
-            if (option.key == filter.selected) {
-                current = option;
-            } else {
-                return <FilterItem key={"f-"+option.key} id={option.key} title={option.title} filterType={this.props.filterType} />;
-            }
+        let filterId = kebabCase(this.props.label);
+        let options = this.props.options.map((option) => {
+            return <FilterItem currentFilter={this.props.filter.selected} key={"filter-item-"+option.key} title={option.title} id={option.key} />;
         });
 
         return(
-            <div className="filter-option">
-                <div className="label">{this.props.label}:</div>
-                <div className={"filter "+filterOpen}>
-                    <a href="#" className="placeholder" onClick={this.handleClick.bind(this)}>
-                        <span>{current.title}</span>
-                        <i className="fa fa-caret-down"></i>
-                    </a>
-                    <ul className="filter-options">
-                        {filterOptions}
-                    </ul>
-                </div>
+            <div className="filter">
+                <label for={filterId}>{this.props.label}:</label>
+                <select id={filterId} name={this.props.filterType} onChange={this.handleChange.bind(this)}>
+                    {options}
+                </select>
             </div>
         );
     }

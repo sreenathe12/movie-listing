@@ -13,8 +13,7 @@ class HomeStore {
         this.page = 1;
         this.filters = {
             orderBy: {
-                open: false,
-                selected: 'release_date'
+                selected: 'popularity'
             }
         };
         this.movies = [];
@@ -22,7 +21,6 @@ class HomeStore {
 
     onSelectFilter(data) {
         this.filters[data.filterType] = {
-            open: false,
             selected: data.selected
         };
     }
@@ -45,10 +43,6 @@ class HomeStore {
 
     onSetLoadingState(state) {
         this.isLoading = state;
-    }
-
-    onToggleFilterState(filterType) {
-        this.filters[filterType].open = !this.filters[filterType].open
     }
 }
 
