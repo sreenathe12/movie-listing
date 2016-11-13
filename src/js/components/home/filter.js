@@ -1,29 +1,38 @@
 import React from 'react';
+import HomeActions from '../../actions/home';
 import FilterItem from './filter-item';
 
 class Filter extends React.Component {
 
+    handleClick(evt) {
+        evt.preventDefault();
+        HomeActions.toggleFilterState(this.props.filterType);
+    }
+
     render() {
-        let current = this.props.options.find((option) => {
-            return option.selected === true;
-        });
+        let { filter } = this.props;
+        let filterOpen = filter.open ? 'open' : 'closed';
+        let current;
+
         let filterOptions = this.props.options.map((option) => {
-            if (option.key != current.key) {
-                return <FilterItem key={"f-"+option.key} id={option.key} title={option.title} />;
+            if (option.key == filter.selected) {
+                current = option;
+            } else {
+                return <FilterItem key={"f-"+option.key} id={option.key} title={option.title} filterType={this.props.filterType} />;
             }
         });
 
         return(
-            <div className="filter">
+            <div className="filter-option">
                 <div className="label">{this.props.label}:</div>
-                <div className="dropdown">
-                    <div className="placeholder">
+                <div className={"filter "+filterOpen}>
+                    <a href="#" className="placeholder" onClick={this.handleClick.bind(this)}>
                         <span>{current.title}</span>
                         <i className="fa fa-caret-down"></i>
-                        <div className="filter-options">
-                            <ul>{filterOptions}</ul>
-                        </div>
-                    </div>
+                    </a>
+                    <ul className="filter-options">
+                        {filterOptions}
+                    </ul>
                 </div>
             </div>
         );

@@ -5,13 +5,19 @@ class FilterItem extends React.Component {
 
     handleClick(evt) {
         evt.preventDefault();
-        console.log(this.props.id);
+        
+        HomeActions.selectFilter({
+            filterType: this.props.filterType,
+            selected: this.props.id
+        });
     }
 
     render() {
         return(
-            <li className={this.props.css} onClick={this.handleClick.bind(this)}>
-                {this.props.title}
+            <li className={this.props.css}>
+                <a href="#" onClick={this.handleClick.bind(this)}>
+                    {this.props.title}
+                </a>
             </li>
         );
     }

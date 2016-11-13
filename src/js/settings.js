@@ -8,9 +8,9 @@ export default {
     MOVIES_PER_ROW: 4,
     IMAGE_WIDTH: 300,
     SORTABLES: [
-        { title: 'Title', key: 'title', selected: true },
-        { title: 'Release Date', key: 'release_date', selected: false },
-        { title: 'Vote average', key: 'vote_average', selected: false },
-        { title: 'Popularity', key: 'popularity', selected: false }
+        { title: 'Title', key: 'title' },
+        { title: 'Release Date', key: 'release_date' },
+        { title: 'Vote average', key: 'vote_average' },
+        { title: 'Popularity', key: 'popularity' }
     ]
 }

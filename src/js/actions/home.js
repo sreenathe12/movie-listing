@@ -6,7 +6,9 @@ class HomeActions {
         this.generateActions(
             'loadMovies',
             'setLoadingState',
-            'setMovie'
+            'setMovie',
+            'toggleFilterState',
+            'selectFilter'
         );
     }
 

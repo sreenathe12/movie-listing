@@ -7,11 +7,24 @@ class HomeStore {
 
     constructor() {
         this.bindActions(HomeActions);
+
         this.isLoading = false;
         this.genre = 'all';
         this.page = 1;
-        this.sortBys = cloneDeep(s.SORTABLES);
+        this.filters = {
+            orderBy: {
+                open: false,
+                selected: 'release_date'
+            }
+        };
         this.movies = [];
+    }
+
+    onSelectFilter(data) {
+        this.filters[data.filterType] = {
+            open: false,
+            selected: data.selected
+        };
     }
 
     onSetMovie(movie) {
@@ -32,6 +45,10 @@ class HomeStore {
 
     onSetLoadingState(state) {
         this.isLoading = state;
+    }
+
+    onToggleFilterState(filterType) {
+        this.filters[filterType].open = !this.filters[filterType].open
     }
 }
 

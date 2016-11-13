@@ -4,7 +4,7 @@
 $input-height: 40px;
 $search-icon-dim: 30px;
 $vote-average-size: 30px;
-$filter-height: 30px;
+$filter-height: 34px;
 
 body {
     margin: 0;
@@ -107,83 +107,6 @@ img {
         padding-left: ($search-icon-dim + $small-spacing);
     }
 }
-.filters {
-    @include clearfix;
-    margin-bottom: $base-spacing;
-
-    .filter {
-        @include clearfix;
-
-        .label {
-            height: $filter-height;
-            float: left;
-            color: $gray-lighter;
-            margin-right: $small-spacing;
-            line-height: $filter-height;
-            font-size: 13px;                    
-        }
-
-        &.open {
-            .dropdown {
-                .filter-options {
-                    top: 100%;
-                }
-            }
-        }
-
-        .dropdown {
-            float: left;
-            min-width: 120px;
-        
-            .placeholder {
-                @include clearfix();
-                color: $yellow;
-                padding: $micro-spacing $small-spacing;
-                background-color: darken($bg, 10%);
-                height: $filter-height;
-                position: relative;
-                
-                &>span {
-                    float: left;
-                    font-weight: 600;
-                    font-size: 13px;
-                }
-
-                .fa {
-                    float: right;
-                    font-size: 13px;
-                }
-            }
-
-            .filter-options {
-                position: absolute;
-                top: -9999px;
-                left: 0;
-                width: 100%;
-                background-color: darken($bg, 10%);
-                z-index: 1000;
-                transition: top 0.25s;
-
-                ul {
-                    margin: 0;
-                    padding: 0;
-                    list-style-type: none;
-
-                    li {
-                        display: block;
-                        padding: $micro-spacing $small-spacing;
-                        color: $gray-light;
-                        font-size: 13px;
-
-                        &.current {
-                            color: #fff;
-                        }
-                    }
-                }
-            }
-        }
-    }
-}
 .movies {
     display: flex;
     justify-content: space-around;
@@ -238,5 +161,82 @@ img {
 
     @media(min-width: $screen-md-min) {
         width: 25%;
+    }
+}
+.filters {
+    @include clearfix;
+    margin-bottom: $large-spacing;
+}
+.filter-option {
+    @include clearfix;
+
+    .label {
+        float: left;
+        color: $gray-lighter;
+        font-size: 14px;
+        height: $filter-height;
+        line-height: $filter-height;
+        margin-right: $small-spacing;
+    }
+
+    .filter {
+        display: inline-block;
+        height: $filter-height;
+        background-color: darken($bg, 15%);
+        min-width: 160px;
+        position: relative;
+        z-index: 1000;
+        float: left;
+
+        &.open {
+            .filter-options {
+                top: 100%;
+                opacity: 1;
+                visibility: visible;
+            }
+        }
+
+        .placeholder {
+            position: relative;
+            display: block;
+            height: $filter-height;
+            line-height: $filter-height;
+            color: $yellow;
+            padding: 0 $small-spacing;
+
+            span {
+                float: left;
+            }
+
+            .fa {
+                position: absolute;
+                top: 50%;
+                right: $small-spacing;
+                margin-top: - (($filter-height / 2) - (14 / 2));
+            }
+        }
+
+        .filter-options {
+            position: absolute;
+            top: 90%;
+            left: 0;
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            list-style-type: none;
+            background-color: darken($bg, 15%);
+            opacity: 0;
+            visibility: hidden;
+
+            a {
+                display: block;
+                color: #fff;
+                padding: $micro-spacing $small-spacing;
+
+                &:hover {
+                    text-decoration: none;
+                }
+            }
+        }
     }
 }

@@ -4,7 +4,10 @@ import HomeActions from '../actions/home';
 import HomeStore from '../stores/home';
 import Movies from '../components/home/movies';
 import Filter from '../components/home/filter';
+import { cloneDeep } from 'lodash';
 import s from '../settings';
+
+const orderBys = cloneDeep(s.SORTABLES);
 
 class Home extends React.Component {
 
@@ -60,10 +63,10 @@ class Home extends React.Component {
                         <SearchForm />
                     </div>
                     <div className="filters">
-                        <Filter label="Order by" options={this.state.sortBys} />
+                        <Filter label="Order by" filterType="orderBy" filter={this.state.filters.orderBy} options={orderBys} />
                     </div>
                     <div className="segment">
-                        <Movies movies={this.state.movies} />
+                        <Movies movies={this.state.movies} orderBy={this.state.filters.orderBy.selected}  />
                     </div>
                 </div>
                 <div className="loader"></div>
