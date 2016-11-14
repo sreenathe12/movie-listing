@@ -1,12 +1,58 @@
 import React from 'react';
 import { Link } from 'react-router';
 import HomeActions from '../../actions/home';
+import { forEach } from 'lodash';
 import s from '../../settings';
 
 class Movie extends React.Component {
 
+    constructor(props) {
+        super(props);
+
+        this.maxGenres = 2;
+        this.genreIndex = 0;
+    }
+
     componentDidMount() {
-        this.fetchMovie();
+        if (this.props.genre_ids.length > 0) {
+            this.fetchGenre();
+        }
+    }
+
+    fetchGenre() {
+        if (this.props.genre_ids[this.genreIndex]) {
+            let genreId = this.props.genre_ids[this.genreIndex];
+            let url = `${s.ENDPOINTS.BASE_GENRE}${genreId}`;
+
+            if (window.GENRES[genreId]) {
+                HomeActions.setGenre.defer({
+                    movieId: this.props.id,
+                    genre: window.GENRES[genreId]
+                });
+            } else {
+                $.ajax({
+                    url: url,
+                    type: 'get',
+                    dataType: 'jsonp',
+                    data: {
+                        api_key: s.API_KEY
+                    }
+                })
+                    .done((response) => {  
+                        window.GENRES[response.id] = response; //cache
+                        HomeActions.setGenre.defer({
+                            movieId: this.props.id,
+                            genre: response
+                        });
+
+
+                        this.genreIndex++;
+                        if (this.genreIndex < this.maxGenres) {
+                            this.fetchGenre();
+                        }
+                    });
+            }
+        }
     }
 
     fetchMovie() {
@@ -18,6 +64,7 @@ class Movie extends React.Component {
             $.ajax({
                 url: url,
                 type: 'get',
+                dataType: 'jsonp',
                 data: {
                     api_key: s.API_KEY,
                     append_to_response: 'images,credits'
@@ -28,34 +75,41 @@ class Movie extends React.Component {
             })
                 .done((response) => {
                     HomeActions.setMovie(response);
-                    //cache
-                    window.MOVIES[response.id] = response;         
+                    window.MOVIES[response.id] = response; //cache    
                 })
                 .always(function() {
 
                 })
                 .fail(function() {
-                    alert('fail');
+                    
                 });
         }
     }
 
     formatGenres() {
-        let genres = [];
-        let genreLen = this.props.genres.length;
-        let i;
+        if (this.props.genres) {
+            let gs = [];
+            
+            forEach(this.props.genres, function(genre, index) {
+                gs.push(genre.name);
+            });
 
-        for (i = 0; i < genreLen; i++) {
-            genres.push(this.props.genres[i].name);
+            return gs.join(', ');
         }
 
-        return genres.join(', ');
+        return '';
     }
-    
+
     render() {
-        let poster = `https://image.tmdb.org/t/p/w${s.IMAGE_WIDTH}${this.props.poster_path}`;
+        let poster;
         let voteAvg = this.props.vote_average.toFixed(1);
-        let genres = this.props.genres ? this.formatGenres() : '';
+        let genres = this.formatGenres();
+
+        if (this.props.poster_path) {
+            poster = `https://image.tmdb.org/t/p/w${s.IMAGE_WIDTH}${this.props.poster_path}`;
+        } else {
+            poster = `https://placeholdit.imgix.net/~text?txtcolor=ffffff&bg=000000&txtsize=40&txt=${this.props.title}&w=300&h=428`;
+        }
 
         return(
             <div className="movie">

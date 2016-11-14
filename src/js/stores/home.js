@@ -1,6 +1,6 @@
 import alt from '../alt';
 import HomeActions from '../actions/home';
-import { cloneDeep } from 'lodash';
+import { cloneDeep, orderBy, findIndex } from 'lodash';
 import s from '../settings';
 
 class HomeStore {
@@ -9,31 +9,38 @@ class HomeStore {
         this.bindActions(HomeActions);
 
         this.isLoading = false;
+        this.isAppending = false;
+        this.query = '';
         this.genre = 'all';
-        this.page = 1;
-        this.filters = {
-            orderBy: {
-                selected: 'popularity'
-            }
-        };
+        this.orderBy = null;
         this.movies = [];
+        this.page = 1;
     }
 
-    onSelectFilter(data) {
-        this.filters[data.filterType] = {
-            selected: data.selected
-        };
+    onOrderBy(orderByKey) {
+        let ascDesc;
+
+        //lazy, will come back to this
+        switch(orderByKey) {
+            case 'vote_average':
+            case 'popularity':
+                ascDesc = 'desc';
+                break;
+            default:
+                ascDesc = 'asc';
+        }
+
+        this.orderBy = orderByKey;
+        this.movies = orderBy(this.movies, [orderByKey], [ascDesc]);
     }
 
     onSetMovie(movie) {
-        let movies = this.movies;
-        let movieLen = movies.length;
-        let i;
+        let index = findIndex(this.movies, function(m) {
+            return m.id == movie.id;
+        });
 
-        for (i = 0; i < movieLen; i++) {
-            if (movies[i].id == movie.id) {
-                movies[i] = movie;
-            }
+        if (index >= 0) {
+            this.movies[index] = movie;
         }
     }
 
@@ -43,6 +50,32 @@ class HomeStore {
 
     onSetLoadingState(state) {
         this.isLoading = state;
+    }
+    
+    onAppendMovies(movies) {
+        this.movies = this.movies.concat(movies);
+    }
+
+    onToggleAppendingState(state) {
+        this.isAppending = state;
+    }
+
+    onNextPage() {
+        this.page = this.page + 1;
+    }
+
+    onSetGenre(data) {
+        let index = findIndex(this.movies, function(m) {
+            return m.id == data.movieId;
+        });
+
+        if (index >= 0) {
+            if (!this.movies[index].genres) {
+                this.movies[index].genres = [];
+            }
+
+            this.movies[index].genres.push(data.genre);
+        }
     }
 }
 

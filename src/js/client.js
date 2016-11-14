@@ -8,6 +8,8 @@ const app = document.getElementById('app');
 
 //caching 
 window.MOVIES = {};
+window.GENRES = {};
+window.LOADED_PAGES = {};
 
 ReactDOM.render(
     <Router history={hashHistory}>

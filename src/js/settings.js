@@ -2,15 +2,19 @@ export default {
 
     API_KEY: 'd77348e9ccd03cbb1af8a427beb866c8',
     ENDPOINTS: {
-        BASE_MOVIE: 'https://api.themoviedb.org/3/movie/',
-        NOW_PLAYING: 'https://api.themoviedb.org/3/movie/now_playing'
+        BASE_MOVIE: 'http://api.themoviedb.org/3/movie/',
+        LATEST: 'http://api.themoviedb.org/3/movie/latest',
+        NOW_PLAYING: 'http://api.themoviedb.org/3/movie/now_playing',
+        POPULAR: 'http://api.themoviedb.org/3/movie/popular',
+        SEARCH: 'http://api.themoviedb.org/3/search/movie',
+        BASE_GENRE: 'http://api.themoviedb.org/3/genre/'
     },
     MOVIES_PER_ROW: 4,
     IMAGE_WIDTH: 300,
     SORTABLES: [
-        { title: 'Title', key: 'title' },
-        { title: 'Release Date', key: 'release_date' },
-        { title: 'Vote average', key: 'vote_average' },
-        { title: 'Popularity', key: 'popularity' }
+        { label: 'Title', value: 'title' },
+        { label: 'Release Date', value: 'release_date' },
+        { label: 'Vote average', value: 'vote_average' },
+        { label: 'Popularity', value: 'popularity' }
     ]
 }

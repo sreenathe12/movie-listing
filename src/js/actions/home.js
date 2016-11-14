@@ -7,7 +7,11 @@ class HomeActions {
             'loadMovies',
             'setLoadingState',
             'setMovie',
-            'selectFilter'
+            'orderBy',
+            'appendMovies',
+            'toggleAppendingState',
+            'nextPage',
+            'setGenre'
         );
     }
 

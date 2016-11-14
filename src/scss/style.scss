@@ -1,12 +1,11 @@
 $input-height: 40px;
 $search-icon-dim: 30px;
 $vote-average-size: 30px;
-$filter-height: 35px;
-
+$filter-height: 36px;
 
 @import "bootstrap";
 @import "vendor/font-awesome/font-awesome";
-@import "vendor/select2/core";
+@import "vendor/react-select/default";
 
 body {
     margin: 0;
@@ -71,6 +70,20 @@ img {
             margin-top: - ($search-icon-dim / 2);
             line-height: $search-icon-dim;
             text-align: center;
+    
+            // kind of a hack
+            &:hover + .dark-input {
+                border-color: $gray-lighter;
+            }
+        }
+
+        &.focused {
+            .icon {
+                color: $yellow;
+            }
+            .dark-input {
+                border-color: $yellow;
+            }
         }
     }
 
@@ -95,6 +108,7 @@ img {
     height: $input-height;
     background-color: transparent;
     box-shadow: none;
+    min-width: 250px;
 
     &:hover {
         border-color: $gray-lighter;
@@ -115,6 +129,7 @@ img {
     -webkit-flex-flow: row wrap;
     margin-left: - $base-spacing;
     margin-right: - $base-spacing;
+    flex-direction: row;
 }
 .movie {
     width: 50%;
@@ -170,10 +185,18 @@ img {
     margin-bottom: $large-spacing;
 }
 .filter {
+    @include clearfix;
+
     label {
-        color: $gray-lighter;
-        margin: 0 $small-spacing 0 0;
-        line-height: $filter-height;
+        float: left;
         height: $filter-height;
+        line-height: $filter-height;
+        color: $gray-lighter;
+        margin-right: $small-spacing;
+    }
+
+    .select-container {
+        float: left;
+        min-width: 150px;
     }
 }
