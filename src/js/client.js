@@ -1,18 +1,18 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { Router, hashHistory, Route, IndexRoute } from 'react-router';
+import { Router, browserHistory, Route, IndexRoute } from 'react-router';
 import Layout from './components/layout';
 import Home from './pages/home';
+import LocalStorageStore from './utils/local-storage-store';
 
 const app = document.getElementById('app');
 
 //caching 
-window.MOVIES = {};
-window.GENRES = {};
-window.LOADED_PAGES = {};
+window.moviesStore = new LocalStorageStore('_movies');
+window.genreStore = new LocalStorageStore('_genres');
 
 ReactDOM.render(
-    <Router history={hashHistory}>
+    <Router history={browserHistory}>
         <Route path="/" component={Layout}>
             <IndexRoute component={Home} />
         </Route>

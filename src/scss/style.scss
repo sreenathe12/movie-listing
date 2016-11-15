@@ -1,5 +1,6 @@
 $input-height: 40px;
 $search-icon-dim: 30px;
+$clear-icon-dim: 30px;
 $vote-average-size: 30px;
 $filter-height: 36px;
 
@@ -37,7 +38,7 @@ img {
         left: 0;
         width: 100%;
         height: 100%;
-        z-index: 3000;
+        z-index: 9999;
         transition: opacity 0.4s;
         background: rgba(55, 55, 55, 0.9) url('../images/triangle.gif') no-repeat center;
     }
@@ -77,12 +78,31 @@ img {
             }
         }
 
+        .clear {
+            position: absolute;
+            top: 50%;
+            right: 0;
+            margin-top:- ($clear-icon-dim / 2);
+            height: $clear-icon-dim;
+            width: $clear-icon-dim;
+            line-height: $clear-icon-dim;
+            text-align: center;
+            color: $gray-lighter;
+            display: none;
+            text-decoration: none;
+        }
+
         &.focused {
             .icon {
                 color: $yellow;
             }
+            .clear {
+                display: inherit;
+            }
             .dark-input {
                 border-color: $yellow;
+                color: $yellow;
+                background-color: darken($bg, 10%);
             }
         }
     }
@@ -120,12 +140,13 @@ img {
     }
 
     &.icon-input {
-        padding-left: ($search-icon-dim + $small-spacing);
+        padding-left: ($search-icon-dim + $micro-spacing);
+        padding-right: ($clear-icon-dim + $micro-spacing);
     }
 }
 .movies {
     display: flex;
-    justify-content: space-around;
+    justify-content: flex-start;
     -webkit-flex-flow: row wrap;
     margin-left: - $base-spacing;
     margin-right: - $base-spacing;
@@ -186,6 +207,7 @@ img {
 }
 .filter {
     @include clearfix;
+    float: left;
 
     label {
         float: left;
@@ -199,4 +221,14 @@ img {
         float: left;
         min-width: 150px;
     }
+
+    &:first-child {
+        margin-right: $large-spacing;
+    }
+}
+.empty-results {
+    padding: $medium-spacing;
+    color: darken($bg, 10%);
+    text-align: center;
+    text-transform: uppercase;
 }

@@ -6,52 +6,46 @@ import s from '../../settings';
 
 class Movie extends React.Component {
 
-    constructor(props) {
-        super(props);
-
-        this.maxGenres = 2;
-        this.genreIndex = 0;
-    }
-
     componentDidMount() {
         if (this.props.genre_ids.length > 0) {
-            this.fetchGenre();
+            this.fetchGenres(0);
         }
     }
 
-    fetchGenre() {
-        if (this.props.genre_ids[this.genreIndex]) {
-            let genreId = this.props.genre_ids[this.genreIndex];
-            let url = `${s.ENDPOINTS.BASE_GENRE}${genreId}`;
+    fetchGenres(genreIndex) {
+        let genreId = this.props.genre_ids[genreIndex];
+        let url = `${s.ENDPOINTS.BASE_GENRE}${genreId}`;
 
-            if (window.GENRES[genreId]) {
-                HomeActions.setGenre.defer({
-                    movieId: this.props.id,
-                    genre: window.GENRES[genreId]
-                });
-            } else {
-                $.ajax({
-                    url: url,
-                    type: 'get',
-                    dataType: 'jsonp',
-                    data: {
-                        api_key: s.API_KEY
-                    }
-                })
-                    .done((response) => {  
-                        window.GENRES[response.id] = response; //cache
-                        HomeActions.setGenre.defer({
-                            movieId: this.props.id,
-                            genre: response
-                        });
+        if (genreStore.get(genreId)) {            
+            HomeActions.setGenre.defer({
+                movieId: this.props.id,
+                genre: genreStore.get(genreId)
+            });
 
-
-                        this.genreIndex++;
-                        if (this.genreIndex < this.maxGenres) {
-                            this.fetchGenre();
-                        }
-                    });
+            if (genreIndex < (this.props.genre_ids.length - 1)) {
+                this.fetchGenres(genreIndex+1);
             }
+        } else {
+            $.ajax({
+                url: url,
+                type: 'get',
+                dataType: 'jsonp',
+                data: {
+                    api_key: s.API_KEY
+                }
+            })
+                .done((response) => {
+                    genreStore.save(response);
+
+                    HomeActions.setGenre.defer({
+                        movieId: this.props.id,
+                        genre: response
+                    });
+
+                    if (genreIndex < (this.props.genre_ids.length - 1)) {
+                        this.fetchGenres(genreIndex+1);
+                    }
+                });
         }
     }
 
@@ -76,27 +70,21 @@ class Movie extends React.Component {
                 .done((response) => {
                     HomeActions.setMovie(response);
                     window.MOVIES[response.id] = response; //cache    
-                })
-                .always(function() {
-
-                })
-                .fail(function() {
-                    
                 });
         }
     }
 
+    //only show 2
     formatGenres() {
-        if (this.props.genres) {
-            let gs = [];
-            
-            forEach(this.props.genres, function(genre, index) {
-                gs.push(genre.name);
-            });
+        let genres = this.props.genres;
 
-            return gs.join(', ');
+        if (genres) {
+            if (genres.length == 1) {
+                return genres[0].name;
+            } else {
+                return `${genres[0].name}, ${genres[1].name}`;
+            }
         }
-
         return '';
     }
 

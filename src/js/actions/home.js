@@ -8,10 +8,13 @@ class HomeActions {
             'setLoadingState',
             'setMovie',
             'orderBy',
+            'filterBy',
             'appendMovies',
             'toggleAppendingState',
             'nextPage',
-            'setGenre'
+            'setGenre',
+            'setPage',
+            'setTotalPages'
         );
     }
 

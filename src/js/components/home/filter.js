@@ -5,10 +5,6 @@ import { kebabCase } from 'lodash';
 
 class Filter extends React.Component {
 
-    handleChange(val) {
-        HomeActions.orderBy(val.value);
-    }
-
     render() {
         let filterId = kebabCase(this.props.filterType);
 
@@ -20,10 +16,10 @@ class Filter extends React.Component {
                         name={this.props.filterType}
                         value={this.props.currentFilter}
                         options={this.props.options}
-                        clearable={false}
+                        clearable={this.props.clearable}
                         searchable={false}
-                        onChange={this.handleChange.bind(this)}
-                        placeholder="Default"
+                        onChange={this.props.onChange}
+                        placeholder={this.props.placeholder}
                     />
                 </div>
             </div>
