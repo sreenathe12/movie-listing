@@ -15,8 +15,8 @@ class LocalStorageStore {
         return null;
     }
 
-    save(genre) {
-        this.genres[genre.id] = genre;
+    save(item) {
+        this.items[item.id] = item;
         this._saveToStore();
     }
 

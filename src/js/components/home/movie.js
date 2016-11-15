@@ -49,31 +49,6 @@ class Movie extends React.Component {
         }
     }
 
-    fetchMovie() {
-        let url = `${s.ENDPOINTS.BASE_MOVIE}${this.props.id}`;
-
-        if (window.MOVIES[this.props.id]) {
-            HomeActions.setMovie(window.MOVIES[this.props.id]);
-        } else {
-            $.ajax({
-                url: url,
-                type: 'get',
-                dataType: 'jsonp',
-                data: {
-                    api_key: s.API_KEY,
-                    append_to_response: 'images,credits'
-                },
-                beforeSend: function() {
-
-                }
-            })
-                .done((response) => {
-                    HomeActions.setMovie(response);
-                    window.MOVIES[response.id] = response; //cache    
-                });
-        }
-    }
-
     //only show 2
     formatGenres() {
         let genres = this.props.genres;
@@ -102,7 +77,7 @@ class Movie extends React.Component {
         return(
             <div className="movie">
                 <div className="poster">
-                    <Link to={"/m/"+this.props.id}>
+                    <Link to={"/m/"+this.props.id} title={this.props.overview}>
                         <img src={poster} alt={this.props.title} />
                     </Link>
                     <div className="rating">
@@ -110,7 +85,7 @@ class Movie extends React.Component {
                     </div>
                 </div>
                 <div className="details">
-                    <Link to={"/m/"+this.props.id} className="title">
+                    <Link to={"/m/"+this.props.id} className="title"  title={this.props.overview}>
                         {this.props.title}
                     </Link>
                     <div className="genre">

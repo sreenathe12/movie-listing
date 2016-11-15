@@ -108,8 +108,6 @@ class Home extends React.Component {
             url = s.ENDPOINTS.POPULAR;
         }
 
-        console.log('Fetching...', url, data);
-
         $.ajax({
             url: url,
             type: 'get',

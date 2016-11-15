@@ -67,6 +67,11 @@ gulp.task('browserify-watch', ['browserify-vendor'], function() {
   }
 });
 
+gulp.task('js-libs', function() {
+  return gulp.src('./src/js/libs/**/*.js')
+    .pipe(gulp.dest(DIR+'/js/libs'));
+});
+
 gulp.task('sass', function() {
   return gulp.src('./src/scss/style.scss')
     .pipe(plumber())
@@ -90,4 +95,4 @@ gulp.task('watch', function() {
 });
 
 gulp.task('default', ['build', 'browserify-watch', 'watch']);
-gulp.task('build', ['sass', 'browserify', 'images', 'fonts']);
+gulp.task('build', ['sass', 'browserify', 'images', 'fonts', 'js-libs']);
