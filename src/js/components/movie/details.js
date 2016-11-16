@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router';
 import Circle from '../circle';
+import CastMember from './cast-member';
 
 class Details extends React.Component {
 
@@ -21,6 +22,11 @@ class Details extends React.Component {
     render() {
         let releaseYear = this.props.release_date.substr(0, 4);
         let endPercentage = ((this.props.vote_average / 10)*100);
+        let topThree = this.props.credits.cast.map((member, index) => {
+            if (index <= 2) {
+                return <CastMember key={"member-"+member.id} {...member} />;
+            }
+        });
 
         return(
             <div className="movie-details-container">
@@ -51,6 +57,9 @@ class Details extends React.Component {
                             </li>
                         </ul>
                     </div>
+                </div>
+                <div className="cast-members">
+                    {topThree}
                 </div>
             </div>
         );

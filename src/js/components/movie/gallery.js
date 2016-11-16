@@ -24,9 +24,6 @@ class Gallery extends React.Component {
         let featured = this.props.images.shift();
         let chunkedImgs = chunk(this.props.images, 2);
         let images = [];
-        let featuredStyle = {
-            backgroundImage: `url('https://image.tmdb.org/t/p/w600${featured.file_path}')`
-        };
 
         forEach(chunkedImgs, function(imgs, index) {
             let firstImgWidth = random(32, 67);
@@ -50,7 +47,10 @@ class Gallery extends React.Component {
 
 		return(
 			<div className="gallery">
-                <div className="gallery-featured" style={featuredStyle}>
+                <div className="gallery-featured">
+                    <a href={`https://image.tmdb.org/t/p/w${s.IMAGE_WIDTH}${featured.file_path}`} className="gallery-image" data-rel={"lightcase:"+movieId}   >
+                        <img src={`https://image.tmdb.org/t/p/w${s.IMAGE_WIDTH}${featured.file_path}`} />
+                    </a>
                 </div>
                 <div className="fixed-gallery">
                     {images}

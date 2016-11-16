@@ -10,7 +10,8 @@ export default {
         BASE_GENRE: 'http://api.themoviedb.org/3/genre/'
     },
     MOVIES_PER_ROW: 4,
-    IMAGE_WIDTH: 300,
+    IMAGE_POSTER: 342,
+    IMAGE_WIDTH: 780,
     SORTABLES: [
         { label: 'Title', value: 'title' },
         { label: 'Release Date', value: 'release_date' },

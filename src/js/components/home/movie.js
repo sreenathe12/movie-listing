@@ -69,7 +69,7 @@ class Movie extends React.Component {
         let genres = this.formatGenres();
 
         if (this.props.poster_path) {
-            poster = `https://image.tmdb.org/t/p/w${s.IMAGE_WIDTH}${this.props.poster_path}`;
+            poster = `https://image.tmdb.org/t/p/w${s.IMAGE_POSTER}${this.props.poster_path}`;
         } else {
             poster = `https://placeholdit.imgix.net/~text?txtcolor=ffffff&bg=000000&txtsize=40&txt=${this.props.title}&w=300&h=428`;
         }
