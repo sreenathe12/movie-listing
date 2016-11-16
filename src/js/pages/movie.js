@@ -1,6 +1,8 @@
 import React from 'react';
+import { Link } from 'react-router';
 import MovieStore from '../stores/movie';
 import MovieActions from '../actions/movie';
+import Details from '../components/movie/details';
 import Gallery from '../components/movie/gallery';
 import s from '../settings';
 
@@ -16,7 +18,7 @@ class Movie extends React.Component {
         this.fetchMovie();
     }
 
-    componentWillUnMount() {
+    componentWillUnmount() {
         MovieStore.unlisten(this._onChange.bind(this));
     }
 
@@ -47,21 +49,29 @@ class Movie extends React.Component {
                     MovieActions.loadMovie(response);
                     moviesStore.save(response);
                 })
-                .always(function() {
+                .always(() => {
                     MovieActions.setLoadingState(false);
                 });
         }
     }
 
 	render() {
-		let isLoading = this.state.isLoading ? 'loading' : 'dormant';
-        let movieId = this.state.movie ? this.state.movie.id : '';
-        let backdrops = this.state.movie ? this.state.movie.images.backdrops : [];
+        let { movie } = this.state;
+        let isLoading, details, gallery;
 
+        if (movie) {
+            isLoading = movie.isLoading ? 'loading' : 'dormant';
+            details = <Details {...movie} />;
+            gallery = <Gallery movieId={movie.id} images={movie.images.backdrops} />;
+        }
+        console.log(movie);
 		return(
-			<div className={"movie page "+isLoading}>
+			<div className={"single-movie page "+isLoading}>
                 <div className="container">
-				    <Gallery movieId={movieId} images={backdrops} />
+                    <div className="frame">
+                        {gallery}    
+                        {details}
+                    </div> 
                 </div>
 				<div className="loader"></div>
 			</div>

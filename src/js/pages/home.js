@@ -18,42 +18,40 @@ class Home extends React.Component {
 
     componentDidMount() {
         HomeStore.listen(this._onChange.bind(this));
+        $(window).on('scroll', this.watch.bind(this));
 
-        let opt = {};
+        if (this.state.movies.length == 0) {
+            let opt = {};
 
-        //just to make sure a new search should start on page 1
-        if (this.props.location.query.q) {
-            HomeActions.setPage(1);
-            opt.query = this.props.location.query.q;
+            if (this.props.location.query.q) {
+                opt.query = this.props.location.query.q;
+            } 
+            
+            this.fetchMovies(this.state.page, false, opt);
         }
-        
-        this.fetchMovies(this.state.page, false, opt);
-        $(window).scroll(this.watch.bind(this));
     }
 
-    componentWillUnMount() {
+    componentWillUnmount() {
         HomeStore.unlisten(this._onChange.bind(this));
+        $(window).off('scroll');
     }
 
     componentWillReceiveProps(nextProps) {
-        let { query } = this.props.location;
-        let opts = {};
-
-        //any time props change we want to reset page
-        HomeActions.setPage(1);
-
-        //change in search query
-        if (nextProps.location.query.q && query.q != nextProps.location.query.q) {            
-            opts.query = nextProps.location.query.q;
+        let { params, location } = this.props;
+        
+        //new search
+        if (nextProps.location.query.q) {
+            if (location.query.q != nextProps.location.query.q) {
+                HomeActions.setPage(1);
+                
+                this.fetchMovies(1, false, {
+                    query: nextProps.location.query.q
+                });
+            }
+        } else if (location.query.q) {
+            //TODO: cache this somehow
+            this.fetchMovies(1);
         }
-
-        //cleared search query
-        //not sure how I like this
-        if (query.q && !nextProps.location.query.q) {
-            document.getElementById('q').value = '';
-        }
-
-        this.fetchMovies(1, false, opts);
     }
 
     shouldComponentUpdate(nextProps, nextState) {

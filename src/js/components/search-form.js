@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link, browserHistory } from 'react-router';
+import { Link, hashHistory } from 'react-router';
 import HomeActions from '../actions/home';
 import s from '../settings';
 
@@ -8,7 +8,13 @@ class SearchForm extends React.Component {
     handleSubmit(evt) {
         evt.preventDefault();
         let $form = $(evt.currentTarget);
-        browserHistory.push(`/?${$form.serialize()}`);
+
+        hashHistory.push(`?${$form.serialize()}`);
+    }
+
+    handleClick(evt) {
+        //not sure I like this
+        document.getElementById('q').value = '';
     }
     
     render() {
@@ -17,12 +23,11 @@ class SearchForm extends React.Component {
         return(
             <div className={"search "+showX}>
                 <form action="/" method="get" onSubmit={this.handleSubmit.bind(this)}>
-                    <Link to="/" className="clear" title="Clear Search">
+                    <Link to="/" className="clear" title="Clear Search" onClick={this.handleClick}>
                         <i className="fa fa-times"></i>
                     </Link>
                     <div className="icon"><i className="fa fa-search fa-lg"></i></div>
                     <input type="text" id="q" name="q" defaultValue={this.props.query} placeholder="Search for movies" className="dark-input icon-input" disabled={this.props.isLoading} />
-                    <input type="hidden" name="page" value="1" />
                 </form>
             </div>
         );

@@ -3,6 +3,8 @@ $search-icon-dim: 30px;
 $clear-icon-dim: 30px;
 $vote-average-size: 30px;
 $filter-height: 36px;
+$circle-dim: 100px;
+$gallery-column: 480px;
 
 @import "bootstrap";
 @import "vendor/font-awesome/font-awesome";
@@ -146,12 +148,14 @@ img {
     }
 }
 .movies {
+    -webkit-display: flex;
     display: flex;
-    justify-content: flex-start;
-    -webkit-flex-flow: row wrap;
+    -webkit-justify-content: space-between;
+    justify-content: space-between;
+    -webkit-flex-wrap: wrap;
+    flex-wrap: wrap;
     margin-left: - $base-spacing;
     margin-right: - $base-spacing;
-    flex-direction: row;
 }
 .movie {
     width: 50%;
@@ -232,4 +236,168 @@ img {
     color: darken($bg, 10%);
     text-align: center;
     text-transform: uppercase;
+}
+.back-link {
+    display: inline-block;
+    margin-bottom: $small-spacing;
+    color: $yellow;
+}
+.movie-header {
+    margin-bottom: $large-spacing;
+}
+.movie-title {
+    margin-bottom: $base-spacing;
+
+    &>span {
+        font-weight: 300;
+        margin-left: $base-spacing;
+    }
+}
+.movie-overview {
+    color: $gray-lighter;
+    margin: 0;
+}
+.circle {
+    position: relative;
+    height: $circle-dim;
+    width: $circle-dim;
+
+    canvas {
+        max-width: 100%;
+        max-height: 100%;
+    }
+}
+.movie-info {
+    @include clearfix;
+    margin-bottom: $large-spacing;
+
+    .movie-vote-average {
+        width: $circle-dim;
+        float: left;
+    }
+    .movie-details {
+        margin-left: $circle-dim;
+        padding: 0 $base-spacing;
+    }
+
+    .circle {
+        position: relative;
+        height: $circle-dim;
+        width: $circle-dim;
+
+        canvas {
+            max-width: 100%;
+            max-height: 100%;
+        }
+    }
+}
+
+.movie-details {
+    padding-left: $base-spacing;
+    ul {
+        padding: 0;
+        margin: 0;
+        list-style-type: none;
+
+        li {
+            margin-bottom: $small-spacing;
+        }
+    }
+
+    .detail-label {
+        display: inline-block;
+        width: 90px;
+        font-size: 13px;
+        color: $gray-light;
+        margin-right: $base-spacing;
+    }
+
+    .detail {
+        display: inline-block;
+        color: #fff;
+        font-size: 13px;    
+    }
+}
+.frame {
+    display: -webkit-flex;
+    display: flex;
+    -webkit-flex-wrap: wrap;
+    flex-wrap: wrap;
+    -webkit-justify-content: space-between;
+    justify-content: space-between;
+    
+    .gallery {
+        width: 100%;
+        -webkit-order: 2;
+        order: 2;
+    }
+    .movie-details-container {
+        width: 100%;
+        -webkit-order: 1;
+        order: 1;
+    }
+
+    @media(min-width: $screen-sm-min) {
+        .gallery {
+            width: 47%;
+            -webkit-order: 1;
+            order: 1;
+        }
+        .movie-details-container {
+            width: 47%;
+            -webkit-order: 2;
+            order: 2;
+        }
+    }
+
+    @media(min-width: $screen-md-min) {
+        .gallery {
+            width: 37%;
+            -webkit-order: 1;
+            order: 1;
+        }
+        .movie-details-container {
+            width: 57%;
+            -webkit-order: 2;
+            order: 2;
+        }
+    }
+}
+.gallery-featured {
+    margin-bottom: $micro-spacing;
+    height: 200px;
+    background-attachment: local;
+    background-repeat: no-repeat;
+    background-position: center;
+    padding: $micro-spacing;
+    background-color: darken($bg, 10%);
+}
+.fixed-gallery {
+    display: -webkit-flex;
+    display: flex;
+    -webkit-flex-wrap: wrap;
+    flex-wrap: wrap;
+    height: 200px;
+    overflow-y: auto;
+    border: 2px solid darken($bg, 10%);
+
+    &::-webkit-scrollbar {
+        width: 0px;
+        background: transparent;
+    }
+    &::-webkit-scrollbar-thumb {
+        background: #ff0000;
+    }
+
+    .fg {
+        border: 4px solid darken($bg, 10%);
+        background-attachment: local;
+        background-repeat: no-repeat;
+        background-position: center;
+        padding: $micro-spacing;
+    }
+
+    @media(min-width: $screen-sm-min) {
+        height: 450px;
+    }
 }
