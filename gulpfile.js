@@ -35,7 +35,7 @@ gulp.task('browserify', ['browserify-vendor'], function() {
     .bundle()
     .pipe(source('client.min.js'))
     .pipe(buffer())
-    //.pipe(uglify({ mangle: false }))
+    .pipe(uglify({ mangle: false }))
     .pipe(gulp.dest(DIR+'/js'));
 });
 
@@ -62,7 +62,7 @@ gulp.task('browserify-watch', ['browserify-vendor'], function() {
       })
       .pipe(source('client.min.js'))
       .pipe(buffer())
-      //.pipe(uglify({ mangle: false }))
+      .pipe(uglify({ mangle: false }))
       .pipe(gulp.dest(DIR+'/js'));
   }
 });
