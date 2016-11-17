@@ -243,6 +243,10 @@ img {
     display: inline-block;
     margin-bottom: $small-spacing;
     color: $yellow;
+
+    &:hover {
+        color: $yellow;
+    }
 }
 .movie-header {
     margin-bottom: $large-spacing;
@@ -375,6 +379,7 @@ img {
     flex-wrap: wrap;
     max-height: 200px;
     overflow-y: auto;
+    padding-right: 17px;
     border: 2px solid darken($bg, 10%);
 
     &::-webkit-scrollbar {
