@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link } from 'react-router';
+import { Link, hashHistory } from 'react-router';
 import MovieStore from '../stores/movie';
 import MovieActions from '../actions/movie';
 import Details from '../components/movie/details';
@@ -22,7 +22,7 @@ class Movie extends React.Component {
         MovieStore.unlisten(this._onChange.bind(this));
     }
 
-     _onChange(state) {
+    _onChange(state) {
         this.setState(state);
     }
 
@@ -51,6 +51,9 @@ class Movie extends React.Component {
                 })
                 .always(() => {
                     MovieActions.setLoadingState(false);
+                })
+                .fail((jqXhr, status) => {
+                    hashHistory.push('problem');
                 });
         }
     }
@@ -64,7 +67,7 @@ class Movie extends React.Component {
             details = <Details {...movie} />;
             gallery = <Gallery movieId={movie.id} images={movie.images.backdrops} />;
         }
-        console.log(movie);
+
 		return(
 			<div className={"single-movie page "+isLoading}>
                 <div className="container">

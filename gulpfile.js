@@ -51,14 +51,13 @@ gulp.task('browserify-watch', ['browserify-vendor'], function() {
     var start = Date.now();
     return bundler.bundle()
       .on('error', notify.onError(function(err) {
-          gutil.log(gutil.colors.red(err.toString()));
           return {
             title: 'Gulp Error: browserify-watch',
             message: err.toString()
           }
       }))
       .on('end', function() {
-        gutil.log(gutil.colors.green('Rebundled: ', (Date.now() - start) + 'ms.'));
+        gutil.log(gutil.colors.green('Finished: ', (Date.now() - start) + 'ms.'));
       })
       .pipe(source('client.min.js'))
       .pipe(buffer())
@@ -75,7 +74,16 @@ gulp.task('js-libs', function() {
 gulp.task('sass', function() {
   return gulp.src('./src/scss/style.scss')
     .pipe(plumber())
-    .pipe(sass({ includePaths: ['./node_modules/bootstrap-sass/assets/stylesheets/'] }))
+    .pipe(
+      sass({
+        includePaths: ['./node_modules/bootstrap-sass/assets/stylesheets/']
+      }).on('error', notify.onError(function(err) {
+          return {
+            title: 'Gulp Error: SASS',
+            message: err.message
+          }
+      }))
+    )
     .pipe(cssmin())
     .pipe(gulp.dest(DIR+'/css'));
 });

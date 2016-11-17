@@ -1,4 +1,5 @@
 import React from 'react';
+import { hashHistory } from 'react-router';
 import SearchForm from '../components/search-form';
 import HomeActions from '../actions/home';
 import HomeStore from '../stores/home';
@@ -134,8 +135,8 @@ class Home extends React.Component {
                 }
                 HomeActions.toggleAppendingState(false);
             })
-            .fail(function(jqXHR, statusText) {
-                console.log(statusText);
+            .fail((jqXhr, status) => {
+                hashHistory.push('problem');
             });
     }
 

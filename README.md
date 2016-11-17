@@ -14,3 +14,7 @@ Front-End example using React. Live example can be found at [http://movie-listin
 ## API
 - Uses the [The Movie DB](https://developers.themoviedb.org/3/getting-started) Api
 - Key: `d77348e9ccd03cbb1af8a427beb866c8`
+
+## Todo
+- Handle API Errors in more detail (404 page, etc..)
+- Image caching/preloading
